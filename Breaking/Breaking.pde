@@ -32,16 +32,55 @@ void draw() {
    clear();
    int demoState=moonlander.getIntValue("demoState");
     
-    background(demoState*50);
-   if(demoState==3){
+   background(demoState*50);
+   if(demoState>-1&&demoState<3){
+     doIntro(demoState);
+   }else if(demoState==3){
      doTheSplitCubesThing();
    }
    
+    textSize(32);
+    fill(255, 102, 0);
+    text("State: "+demoState, width-200, 35,0 );
    moonlander.update();
 } 
-void drawSomethingElse(){
-  int bg_blue = moonlander.getIntValue("background_blue");
-    
+double lastValue;
+void cubeLine(float deltaX, float deltaY, boolean doFunkySpirals, double intro){
+  float i;
+  pushMatrix();
+  for(i=0;i<intro;i++){
+     translate(deltaX,deltaY,(float)(intro/52));
+     box(20, 80, 20);
+     if(doFunkySpirals){
+       rotateZ((2*PI)*(sin(millis()/10000f ) ));
+     }
+   }
+  popMatrix();
+}
+void doIntro(int demoState){
+  noStroke();
+   double intro=moonlander.getValue("introState");
+   if(demoState==0){
+      background( 0);
+      return; 
+   }
+   
+   background((float) (255*(intro%2)), 255, 0);
+   
+   cubeLine(20,20, false, intro);
+   pushMatrix();
+   translate(width,0);   
+   cubeLine(-20,20,true, intro);
+   popMatrix();
+   pushMatrix();
+   translate(width,height);
+   cubeLine(-20,-20,false, intro);
+   popMatrix();
+   pushMatrix();
+   translate(0,height);
+   cubeLine(20,-20,true, intro);
+   popMatrix();
+  
 }
 void doTheSplitCubesThing(){
     beginCamera();
