@@ -11,7 +11,8 @@ void setup() {
     // - soundtrack filename (relative to sketch's folder)
     // - beats per minute in the song
     // - how many rows in Rocket correspond to one beat
-  //  moonlander = Moonlander.initWithSoundtrack(this, "tekno_127bpm.mp3", 127, 8);
+  //
+  moonlander = Moonlander.initWithSoundtrack(this, "summerCartLyhennetty.mp3", 137, 4);
  
     // Other initialization code goes here.
     size(800, 450, P3D);
@@ -22,7 +23,7 @@ void setup() {
     // connects to Rocket (development mode) or loads data
     // from 'syncdata.rocket' (player mode).
     // Also, in player mode the music playback starts immediately.
-   // moonlander.start();
+   moonlander.start();
 }
  
 boolean sketchFullScreen() {
@@ -30,23 +31,32 @@ boolean sketchFullScreen() {
 }
  
 void draw() {
+   clear();
+   int demoState=moonlander.getIntValue("demoState");
+    
+    background(demoState*50);
+   
+   moonlander.update();
    drawCube();
-} 
- 
+}  
+void drawSomethingElse(){
+  int bg_blue = moonlander.getIntValue("background_blue");
+    
+}
 void drawCube() {
  //   clear();
  // moonlander.update();
-    
+    double bg_red = moonlander.getValue("background_red");
     beginCamera();
     camera();
     translate(width/2, height/2);
-    rotateY(millis()/1000f);
+    rotateY((float)bg_red);
     endCamera();
- 
-   /* double bg_red = moonlander.getValue("background_red");
-    int bg_green = moonlander.getIntValue("background_green");
+     
+
+  /*  int bg_green = moonlander.getIntValue("background_green");
     int bg_blue = moonlander.getIntValue("background_blue");  */
-    background(100);
+    
    
     float baseX=width/2;
     float baseY=height/2;
