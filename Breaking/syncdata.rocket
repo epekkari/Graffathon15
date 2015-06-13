@@ -1,10 +1,6 @@
 <sync rows="1000">
 	<tracks>
 		<track name="demoState">
-			<key interpolation="0" row="64" value="1"/>
-			<key interpolation="0" row="132" value="2"/>
-			<key interpolation="0" row="260" value="3"/>
-			<key interpolation="0" row="660" value="5"/>
 			<key row="64" value="1" interpolation="0"/>
 			<key row="132" value="2" interpolation="0"/>
 			<key row="260" value="3" interpolation="0"/>
@@ -12,9 +8,9 @@
 		</track>
 		<track name="background_red"/>
 		<track name="introState">
-			<key interpolation="0" row="0" value="-1"/>
-			<key interpolation="1" row="64" value="1"/>
-			<key interpolation="0" row="132" value="18"/>
+			<key row="0" value="-1" interpolation="0"/>
+			<key row="64" value="1" interpolation="1"/>
+			<key row="132" value="18" interpolation="0"/>
 		</track>
 		<track name="cubeSeparation">
 			<key row="288" value="0" interpolation="1"/>
