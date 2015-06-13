@@ -55,40 +55,51 @@ void doTheSplitCubesThing(){
     
    float cubeSize = 50f;
   
+   float cubeSeparation = (float)(moonlander.getValue("cubeSeparation"));
+  
    pushMatrix();
-   translate(secondPower()*cubeSize, 0, 0);
+   translate(cubeSeparation*cubeSize, 0, 0);
    drawCube(cubeSize);
    popMatrix();
    
    pushMatrix();
-   translate(-1*secondPower()*cubeSize, 0, 0);
+   translate(-1*cubeSeparation*cubeSize, 0, 0);
    drawCube(cubeSize);
    popMatrix();
    
    perspective();
 
 }
-float secondPower() {
-    if (millis() > 5000) {
-       return 3.0f;
-    } else if (millis() < 2000) {
-       return 0.0f;
-    } else {
-       return (float)(millis()/1000f); 
-    }
-}
- 
+
 void drawCube(float size) {
     // clear();
     // moonlander.update();
  
-    float beat = 40*abs(sin(PI*137/60*millis()/1000f));
+    
     rotateY(millis()/1000f);
+    
+    float beat = 0.0f;
+    float rot = 0.0f;
+    int cubePhase = moonlander.getIntValue("cubePhase");
+    float dampBeat = (float)(moonlander.getValue("dampBeat"));
+    
+    if (cubePhase >= 1) {
+      beat = 40*dampBeat*abs(sin(PI*137/60*millis()/1000f));
+    }
+    if (cubePhase >= 2) {
+      rot = PI*137/60*millis()/1000f;
+    }
+    if (cubePhase >= 3) {
+      rot = 0.0f;
+    }
+    if (cubePhase >= 4) {
+      beat = 0.0f;
+    }
     
     //y
     pushMatrix();
     translate(0, -(size+beat), 0);
-    rotateY(PI*137/60*millis()/1000f);
+    rotateY(rot);
     drawPyramid(size);
     popMatrix();
     
@@ -96,7 +107,7 @@ void drawCube(float size) {
     pushMatrix();
     translate(0, size+beat, 0);
     rotateZ(PI);
-    rotateY(-PI*137/60*millis()/1000f);
+    rotateY(-rot);
     drawPyramid(size);
     popMatrix();
     
@@ -104,7 +115,7 @@ void drawCube(float size) {
     pushMatrix();
     translate(0, 0, -(size+beat));
     rotateX(PI/2);
-    rotateY(PI*137/60*millis()/1000f);
+    rotateY(rot);
     drawPyramid(size);
     popMatrix();
     
@@ -112,14 +123,14 @@ void drawCube(float size) {
     pushMatrix();
     translate(0, 0, size+beat);
     rotateX(-PI/2);
-    rotateY(-PI*137/60*millis()/1000f);
+    rotateY(-rot);
     drawPyramid(size);
     popMatrix();
     
     //z
     pushMatrix();
     translate(size+beat, 0, 0);
-    rotateX(PI*137/60*millis()/1000f);
+    rotateX(rot);
     rotateZ(PI/2);
     drawPyramid(size);
     popMatrix();
@@ -127,7 +138,7 @@ void drawCube(float size) {
     //-z
     pushMatrix();
     translate(-(size+beat), 0, 0);
-    rotateX(-PI*137/60*millis()/1000f);
+    rotateX(-rot);
     rotateZ(-PI/2);
     drawPyramid(size);
     popMatrix();
@@ -147,6 +158,7 @@ void drawPyramid(float size) {
     int i;
     int i2;
     int i3;
+    boolean green=true;
     for(i=0; i<5 ;i++){
       for(i2=0; i2<5 ;i2++){
         if(i2==i){
@@ -158,9 +170,15 @@ void drawPyramid(float size) {
           }
           if(i==4||i2==4||i3==4){
             fill(255,0,0);
-          } else {fill(6,255,18);}
+            green=false;
+          } else if(i!=4&&i2!=4&&i3!=4){
+            green=true;
+          }
+          fill((i==4)?220:(green)?0:255, (green)?255:30, 0);
           vertex( verts[i][0],verts[i][1],verts[i][2]);
+          fill((i2==4)?220:(green)?0:255, (green)?255:30, 0);
           vertex( verts[i2][0],verts[i2][1],verts[i2][2]);
+          fill((i3==4)?220:(green)?0:255, (green)?255:30, 0);
           vertex( verts[i3][0],verts[i3][1],verts[i3][2]);
         }
       }

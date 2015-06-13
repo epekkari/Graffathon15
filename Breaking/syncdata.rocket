@@ -7,6 +7,25 @@
 			<key row="660" value="5" interpolation="0"/>
 		</track>
 		<track name="background_red"/>
+		<track name="cubeSeparation">
+			<key row="288" value="0" interpolation="1"/>
+			<key row="312" value="3" interpolation="0"/>
+			<key row="544" value="3" interpolation="1"/>
+			<key row="560" value="0" interpolation="0"/>
+		</track>
+		<track name="cubePhase">
+			<key row="274" value="0" interpolation="0"/>
+			<key row="325" value="1" interpolation="0"/>
+			<key row="388" value="2" interpolation="0"/>
+			<key row="520" value="3" interpolation="0"/>
+			<key row="536" value="4" interpolation="0"/>
+		</track>
+		<track name="dampBeat">
+			<key row="316" value="0" interpolation="2"/>
+			<key row="325" value="1" interpolation="0"/>
+			<key row="528" value="1" interpolation="2"/>
+			<key row="536" value="0" interpolation="0"/>
+		</track>
 	</tracks>
 	<bookmarks/>
 </sync>
