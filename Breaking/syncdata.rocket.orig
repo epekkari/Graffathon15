@@ -1,18 +1,18 @@
 <sync rows="1000">
 	<tracks>
 		<track name="demoState">
-			<key row="64" value="1" interpolation="0"/>
-			<key row="132" value="2" interpolation="0"/>
-			<key row="260" value="3" interpolation="0"/>
-			<key row="660" value="5" interpolation="0"/>
+			<key interpolation="0" row="64" value="1"/>
+			<key interpolation="0" row="132" value="2"/>
+			<key interpolation="0" row="260" value="3"/>
+			<key interpolation="0" row="660" value="5"/>
 		</track>
 		<track name="background_red"/>
+<<<<<<< HEAD
 		<track name="introState">
-			<key row="0" value="-1" interpolation="0"/>
-			<key row="64" value="1" interpolation="1"/>
-			<key row="132" value="52" interpolation="1"/>
-			<key row="260" value="80" interpolation="0"/>
-		</track>
+			<key interpolation="0" row="0" value="-1"/>
+			<key interpolation="1" row="64" value="1"/>
+			<key interpolation="0" row="132" value="18"/>
+=======
 		<track name="cubeSeparation">
 			<key row="288" value="0" interpolation="1"/>
 			<key row="312" value="3" interpolation="0"/>
@@ -31,6 +31,7 @@
 			<key row="325" value="1" interpolation="0"/>
 			<key row="528" value="1" interpolation="2"/>
 			<key row="536" value="0" interpolation="0"/>
+>>>>>>> origin/test
 		</track>
 	</tracks>
 	<bookmarks/>

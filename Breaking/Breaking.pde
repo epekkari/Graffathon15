@@ -37,13 +37,50 @@ void draw() {
      doIntro(demoState);
    }else if(demoState==3){
      doTheSplitCubesThing();
+     drawExtraCubes();
    }
    
     textSize(32);
     fill(255, 102, 0);
-    text("State: "+demoState, width-200, 35,0 );
+    text("State: "+demoState+" "+crapToShowInDebug, width-200, 35,0 );
    moonlander.update();
 } 
+void drawExtraCubes(){
+  int i;
+  int i2;
+  float scalingValue=1000f;
+  pushMatrix();
+  
+//  translate(width,height,0);
+  translate(-scalingValue, 0, -scalingValue*2); 
+  for(i=0;i<3;i++){  
+       pushMatrix();
+    for(i2=0;i2<3;i2++){
+      translate(0,0,scalingValue);
+        
+      if(i==0){
+        fill(255*sin((millis()+i*10)/1000f), 255*cos((millis()+i2*10)/1000f),255*tan(millis()/1000f) );
+      } else if(i==1) {
+        fill( 255*cos((millis()+i2*10)/1000f),255*sin((millis()+i*10)/1000f),255*tan(millis()/1000f) );  
+      } else{
+        fill(255*tan(millis()/1000f)  ,255*cos((millis()+i2*10)/1000f),255*sin((millis()+i*10)/1000f));  
+      }
+      if(i2==1&&i==1){
+        translate(0,scalingValue,0);
+        box(scalingValue);
+        translate(0,-scalingValue*2,0);
+        box(scalingValue);
+        continue;
+      }  
+      box(scalingValue);
+   
+    }
+     popMatrix();
+    translate(scalingValue,0,0);
+  }
+  popMatrix();
+}
+String crapToShowInDebug="";
 double lastValue;
 void cubeLine(float deltaX, float deltaY, boolean doFunkySpirals, double intro){
   float i;
@@ -65,7 +102,7 @@ void doIntro(int demoState){
       return; 
    }
    
-   background((float) (255*(intro%2)), 255, 0);
+   background((float) (255*(intro%4)), 255, 0);
    
    cubeLine(20,20, false, intro);
    pushMatrix();
@@ -80,7 +117,44 @@ void doIntro(int demoState){
    translate(0,height);
    cubeLine(20,-20,true, intro);
    popMatrix();
-  
+   crapToShowInDebug=""+intro;
+   if(intro>24) {
+     
+     int i;
+      for(i=0; i<2;i++){
+         pushMatrix();
+         translate(-width+width*i*3,-height+height*i*3);
+         cubeLine(20,-20,true, intro-24);
+         popMatrix();
+         pushMatrix();
+         translate(-width+width*i*3,-height+height*abs(i-1)*3);
+         cubeLine(20,-20,true, intro-24);
+         popMatrix();
+      }
+   }
+   if(intro>34) {
+     
+     fill(255);
+     int i;
+     float f=lerp(0,width*4f,((float)intro-34f)/(50f-34f));
+      pushMatrix();
+      translate(width/2, height,40);
+      box(f , height/3,height/3);
+      translate(0, -height,0);
+      box(f , height/3,height/3);
+      popMatrix();
+   }
+   
+   
+     beginCamera();
+     camera();
+     translate(0,0, lerp(0, -25,(float) (intro-30/30) ) );
+     if(intro>70){
+       rotateZ(lerp(0,PI*1, (float)(intro-70f/10f)));
+     }
+     endCamera();
+   
+    
 }
 void doTheSplitCubesThing(){
     beginCamera();
