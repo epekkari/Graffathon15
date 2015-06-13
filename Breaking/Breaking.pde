@@ -35,9 +35,11 @@ void draw() {
    background(demoState*50);
    if(demoState>-1&&demoState<3){
      doIntro(demoState);
-   }else if(demoState==3){
+   } else if (demoState==3){
      doTheSplitCubesThing();
-   }
+   } else if (demoState==4){
+     doOutro();
+   }  
    
     textSize(32);
     fill(255, 102, 0);
@@ -82,6 +84,34 @@ void doIntro(int demoState){
    popMatrix();
   
 }
+
+void doOutro() {
+  background(205,0,0);
+  beginCamera();
+  camera();
+  rotateY(0.15*sin(millis()/1000f));
+  translate(-width, -height, 250*abs(sin(millis()/1000f))-800);
+  endCamera();
+  
+  int moveIdx = moonlander.getIntValue("moveIdx");
+  
+  int size = 30;
+  PShape s = setupPyramid(size);
+  int n = width/size;
+  boolean move = true;
+  for(int i=0;i<n;i++){
+    if (i == moveIdx) {
+        move = false;
+     }
+    for(int j=0;j<n;j++) {
+     pushMatrix();
+     translate(5*i*size,5*j*size,random(-size, size));
+     drawCube(size, s, move);
+     popMatrix();
+    }
+  }
+}
+
 void doTheSplitCubesThing(){
     beginCamera();
    camera();
@@ -96,95 +126,129 @@ void doTheSplitCubesThing(){
   
    float cubeSeparation = (float)(moonlander.getValue("cubeSeparation"));
   
+   PShape s = setupPyramid(cubeSize);
+  
    pushMatrix();
    translate(cubeSeparation*cubeSize, 0, 0);
-   drawCube(cubeSize);
+   drawCube(cubeSize, s, true);
    popMatrix();
    
    pushMatrix();
    translate(-1*cubeSeparation*cubeSize, 0, 0);
-   drawCube(cubeSize);
+   drawCube(cubeSize, s, true);
    popMatrix();
    
    perspective();
 
 }
 
-void drawCube(float size) {
+void drawCube(float size, PShape s, boolean move) {
     // clear();
     // moonlander.update();
- 
-    
-    rotateY(millis()/1000f);
     
     float beat = 0.0f;
     float rot = 0.0f;
     int cubePhase = moonlander.getIntValue("cubePhase");
     float dampBeat = (float)(moonlander.getValue("dampBeat"));
     
-    if (cubePhase >= 1) {
-      beat = 40*dampBeat*abs(sin(PI*137/60*millis()/1000f));
+    if (move) {
+      rotateY(millis()/1000f);
+      if (cubePhase >= 1) {
+        beat = 25*dampBeat*abs(sin(PI*137/60*millis()/1000f));
+      }
+      if (cubePhase >= 2) {
+        rot = PI*137/60*millis()/1000f;
+      }
+      if (cubePhase >= 3) {
+        rot = 0.0f;
+      }
+      if (cubePhase >= 4) {
+        rot = 0.0f;//PI*137/60*millis()/1000f;
+      }
+      if (cubePhase >= 5) {
+       beat = 10*abs(sin(2*PI*137/60*millis()/1000f));
+        rot = PI*137/60*millis()/1000f;
+      }
     }
-    if (cubePhase >= 2) {
-      rot = PI*137/60*millis()/1000f;
-    }
-    if (cubePhase >= 3) {
-      rot = 0.0f;
-    }
-    if (cubePhase >= 4) {
-      beat = 0.0f;
-    }
-    
     //y
     pushMatrix();
     translate(0, -(size+beat), 0);
-    rotateY(rot);
-    drawPyramid(size);
+    if (cubePhase < 5) {
+       rotateY(rot);
+    } else {
+       rotateZ(rot);
+    }
+    drawPyramid(s);
     popMatrix();
     
     //-y
     pushMatrix();
     translate(0, size+beat, 0);
     rotateZ(PI);
-    rotateY(-rot);
-    drawPyramid(size);
+    if (cubePhase < 5) {
+       rotateY(-rot);
+    } else {
+       rotateZ(-rot);
+    }
+    //drawPyramid(size);
+    drawPyramid(s);
     popMatrix();
     
     //x
     pushMatrix();
     translate(0, 0, -(size+beat));
     rotateX(PI/2);
-    rotateY(rot);
-    drawPyramid(size);
+    if (cubePhase < 5) {
+       rotateY(rot);
+    } else {
+       rotateZ(rot);
+    }
+    //drawPyramid(size);
+    drawPyramid(s);
     popMatrix();
     
     //-x
     pushMatrix();
     translate(0, 0, size+beat);
     rotateX(-PI/2);
-    rotateY(-rot);
-    drawPyramid(size);
+    if (cubePhase < 5) {
+       rotateY(-rot);
+    } else {
+       rotateZ(-rot);
+    }
+    //drawPyramid(size);
+    drawPyramid(s);
     popMatrix();
     
     //z
     pushMatrix();
     translate(size+beat, 0, 0);
-    rotateX(rot);
     rotateZ(PI/2);
-    drawPyramid(size);
+    if (cubePhase < 5) {
+       rotateY(rot);
+    } else {
+       rotateZ(rot);
+    }
+    //drawPyramid(size);
+    drawPyramid(s);
     popMatrix();
     
     //-z
     pushMatrix();
     translate(-(size+beat), 0, 0);
-    rotateX(-rot);
     rotateZ(-PI/2);
-    drawPyramid(size);
+    if (cubePhase < 5) {
+       rotateY(-rot);
+    } else {
+       rotateZ(-rot);
+    }
+    //drawPyramid(size);
+    drawPyramid(s);
     popMatrix();
      
 }
 
-void drawPyramid(float size) {
+PShape setupPyramid(float size) {
     noStroke();
     float[] v1={1*size,0,1*size};
     float[] v2={-1*size,0,1*size};
@@ -193,7 +257,8 @@ void drawPyramid(float size) {
     float[] v5={0,1*size,0};
     float[][] verts={v1,v2,v3,v4,v5};
     fill(255);
-    beginShape(TRIANGLES);
+    PShape s = createShape();
+    s.beginShape(TRIANGLES);
     int i;
     int i2;
     int i3;
@@ -211,19 +276,24 @@ void drawPyramid(float size) {
             fill(255,0,0);
             green=false;
           } else if(i!=4&&i2!=4&&i3!=4){
-            green=true;
+            green=true;  
           }
-          fill((i==4)?220:(green)?0:255, (green)?255:30, 0);
-          vertex( verts[i][0],verts[i][1],verts[i][2]);
-          fill((i2==4)?220:(green)?0:255, (green)?255:30, 0);
-          vertex( verts[i2][0],verts[i2][1],verts[i2][2]);
-          fill((i3==4)?220:(green)?0:255, (green)?255:30, 0);
-          vertex( verts[i3][0],verts[i3][1],verts[i3][2]);
+          s.fill((i==4)?220:(green)?0:255, (green)?255:30, 0);
+          s.vertex( verts[i][0],verts[i][1],verts[i][2]);
+          s.fill((i2==4)?220:(green)?0:255, (green)?255:30, 0);
+          s.vertex( verts[i2][0],verts[i2][1],verts[i2][2]);
+          s.fill((i3==4)?220:(green)?0:255, (green)?255:30, 0);
+          s.vertex( verts[i3][0],verts[i3][1],verts[i3][2]);
         }
       }
     }
     
-    endShape();
+    s.endShape();
+    return s;
+}
+
+void drawPyramid(PShape s) {
+    shape(s, 0, 0);
     
 //    textSize(32);
 //    fill(255, 102, 0);
