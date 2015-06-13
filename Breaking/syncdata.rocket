@@ -1,0 +1,12 @@
+<sync rows="128">
+	<tracks>
+		<track name="background_red"/>
+		<track name="background_green"/>
+		<track name="background_blue"/>
+		<track name="break_phase">
+			<key row="8" value="0" interpolation="1"/>
+			<key row="70" value="100" interpolation="0"/>
+		</track>
+	</tracks>
+	<bookmarks/>
+</sync>
