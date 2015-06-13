@@ -30,6 +30,10 @@ boolean sketchFullScreen() {
 }
  
 void draw() {
+   drawCube();
+} 
+ 
+void drawCube() {
  //   clear();
  // moonlander.update();
     
@@ -52,10 +56,14 @@ void draw() {
 //    rotateY((float)millis()/1000f);
     int size=50;
     
+    pushMatrix();
+    
     translate(0, -size, 0);
     
     drawPyramid(size);
+
     
+    popMatrix();
     pushMatrix();
     
     translate(0, 2*size, 0);
@@ -64,11 +72,14 @@ void draw() {
     drawPyramid(size);
     
     popMatrix();
+    pushMatrix();
    
     translate(0, size, -size);
     rotateX(PI/2);
     
     drawPyramid(size);
+    
+    popMatrix();
 
     perspective();
 
