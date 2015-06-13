@@ -11,16 +11,18 @@ void setup() {
     // - soundtrack filename (relative to sketch's folder)
     // - beats per minute in the song
     // - how many rows in Rocket correspond to one beat
-    moonlander = Moonlander.initWithSoundtrack(this, "tekno_127bpm.mp3", 127, 8);
+  //  moonlander = Moonlander.initWithSoundtrack(this, "tekno_127bpm.mp3", 127, 8);
  
     // Other initialization code goes here.
     size(800, 450, P3D);
  
+ 
+
     // Last thing in setup; start Moonlander. This either
     // connects to Rocket (development mode) or loads data
     // from 'syncdata.rocket' (player mode).
     // Also, in player mode the music playback starts immediately.
-    moonlander.start();
+   // moonlander.start();
 }
  
 boolean sketchFullScreen() {
@@ -28,73 +30,88 @@ boolean sketchFullScreen() {
 }
  
 void draw() {
-    // Handles communication with Rocket. In player mode
-    // does nothing. Must be called at the beginning of draw().
-    moonlander.update();
+ //   clear();
+ // moonlander.update();
+    
+    beginCamera();
+    camera();
+    translate(width/2, height/2);
+    rotateY(millis()/1000f);
+    endCamera();
  
-    // This shows how you can query value of a track.
-    // If track doesn't exist in Rocket, it's automatically
-    // created.
-    double bg_red = moonlander.getValue("background_red");
- 
-    // All values in Rocket are floats; however, there's
-    // a shortcut for querying integer value (getIntValue)
-    // so you don't need to cast.
+   /* double bg_red = moonlander.getValue("background_red");
     int bg_green = moonlander.getIntValue("background_green");
-    int bg_blue = moonlander.getIntValue("background_blue");
-   
-    // Use values to control anything (in this case, background color).
-    //background((int)bg_red, bg_blue, bg_green);
-   
+    int bg_blue = moonlander.getIntValue("background_blue");  */
     background(100);
    
-    // You can also ask current time and row from Moonlander if you
-    // want to do something custom in code based on time.
-//    textSize(24);
-//    text("Time: " + String.format("%.2f", moonlander.getCurrentTime()), 10, 30);
-//    text("Row: " + String.format("%.2f", moonlander.getCurrentRow()), 10, 60);
-//    text("Color values: (" + (int)bg_red + ", " + bg_green + ", " + bg_blue + ")", 10, 90);
-    int size = 40;
-    int xPos = 50;
-    int yPos = 50;
-    int n = 10;
-    int shiftX = xPos + size * n / 2;
-    int shiftY = yPos + size * n / 2;
-    float breakPhase = moonlander.getIntValue("break_phase");
-    for(int i = 0; i < n; i++) {
-      for(int j = 0; j < n; j++) {
-        int brokenXPos = (int)(xPos + breakingFunction(xPos + size*i, shiftX)
-                          * breakPhase);
-        int brokenYPos = (int)(yPos + breakingFunction(yPos + size*j, shiftY)
-        * breakPhase);
-        int offsetX = (int)(breakingFunction(xPos + size*i, shiftX)
-                          * breakPhase * 0.3) * (i < 5 ? -1 : 1);        
-        //print(brokenXPos);
-//        triangle(size*i + brokenXPos - offsetX,
-//                size*j + brokenYPos,
-//                 size*i + brokenXPos + size - offsetX,
-//                 size*j + brokenYPos + size,
-//                 size*i + brokenXPos - offsetX,
-//                 size*j + brokenYPos + size);
-//         triangle(size*i + brokenXPos + offsetX,
-//                   size*j + brokenYPos,
-//                   size*i + brokenXPos + size + offsetX,
-//                   size*j + brokenYPos + size,
-//                   size*i + brokenXPos + size + offsetX,
-//                   size*j + brokenYPos);
-//        triangle(20*i,20,20 +20*i,40,20*i,40);
-          //fill(255,255,255);
-          beginShape(POINTS);
-            vertex(size*i + brokenXPos - offsetX, size*j + brokenYPos, -50);
-            vertex(size*i + brokenXPos + size - offsetX, size*j + brokenYPos + size, -50);
-            vertex(size*i + brokenXPos - offsetX, size*j + brokenYPos + size, -50);
-            vertex(30, 75, -50);
-            endShape();
+    float baseX=width/2;
+    float baseY=height/2;
+    float baseZ=0;
+    
+//    rotateX((float)millis()/1000f);
+//    rotateY((float)millis()/1000f);
+    int size=50;
+    
+    translate(0, -size, 0);
+    
+    drawPyramid(size);
+    
+    pushMatrix();
+    
+    translate(0, 2*size, 0);
+    rotateZ(PI);
+    
+    drawPyramid(size);
+    
+    popMatrix();
+   
+    translate(0, size, -size);
+    rotateX(PI/2);
+    
+    drawPyramid(size);
+
+    perspective();
+
+     
+}
+
+void drawPyramid(int size) {
+      float[] v1={1*size,0,1*size};
+    float[] v2={-1*size,0,1*size};
+    float[] v3={-1*size,0,-1*size};
+    float[] v4={1*size,0,-1*size};
+    float[] v5={0,1*size,0};
+    float[][] verts={v1,v2,v3,v4,v5};
+    fill(255);
+    beginShape(TRIANGLES);
+    int i;
+    int i2;
+    int i3;
+    for(i=0; i<5 ;i++){
+      for(i2=0; i2<5 ;i2++){
+        if(i2==i){
+          continue;
+        }
+        for(i3=0; i3<5 ;i3++){
+          if(i3==i2||i3==i){
+            continue;
+          }
+          vertex( verts[i][0],verts[i][1],verts[i][2]);
+          vertex( verts[i2][0],verts[i2][1],verts[i2][2]);
+          vertex( verts[i3][0],verts[i3][1],verts[i3][2]);
+        }
       }
     }
+    
+    endShape();
+    
+//    textSize(32);
+//    fill(255, 102, 0);
+//    text("V1",v1[0], v1[1],v1[2]); 
+//    text("V2",v2[0], v2[1],v2[2]); 
+//    text("V3",v3[0], v3[1],v3[2]); 
+//    text("V4",v4[0], v4[1],v4[2]); 
+//    camera((70f-140f*sin(millis()/1000f)*20f)/3 ,35 , 120.0, 0,0, 0, 
+//    0.0, 1.0, 0.0);
 }
- 
-float breakingFunction(float x, float shift) {
-  float temp = (x - shift) * 0.01f;  
-  return temp*temp*temp;
-}
+
