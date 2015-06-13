@@ -11,10 +11,10 @@ void setup() {
     // - soundtrack filename (relative to sketch's folder)
     // - beats per minute in the song
     // - how many rows in Rocket correspond to one beat
-    moonlander = Moonlander.initWithSoundtrack(this, "../tekno_127bpm.mp3", 127, 8);
+    moonlander = Moonlander.initWithSoundtrack(this, "tekno_127bpm.mp3", 127, 8);
  
     // Other initialization code goes here.
-    size(800, 450);
+    size(800, 450, P3D);
  
     // Last thing in setup; start Moonlander. This either
     // connects to Rocket (development mode) or loads data
@@ -70,19 +70,26 @@ void draw() {
         int offsetX = (int)(breakingFunction(xPos + size*i, shiftX)
                           * breakPhase * 0.3) * (i < 5 ? -1 : 1);        
         //print(brokenXPos);
-        triangle(size*i + brokenXPos - offsetX,
-                size*j + brokenYPos,
-                 size*i + brokenXPos + size - offsetX,
-                 size*j + brokenYPos + size,
-                 size*i + brokenXPos - offsetX,
-                 size*j + brokenYPos + size);
-         triangle(size*i + brokenXPos + offsetX,
-                   size*j + brokenYPos,
-                   size*i + brokenXPos + size + offsetX,
-                   size*j + brokenYPos + size,
-                   size*i + brokenXPos + size + offsetX,
-                   size*j + brokenYPos);
+//        triangle(size*i + brokenXPos - offsetX,
+//                size*j + brokenYPos,
+//                 size*i + brokenXPos + size - offsetX,
+//                 size*j + brokenYPos + size,
+//                 size*i + brokenXPos - offsetX,
+//                 size*j + brokenYPos + size);
+//         triangle(size*i + brokenXPos + offsetX,
+//                   size*j + brokenYPos,
+//                   size*i + brokenXPos + size + offsetX,
+//                   size*j + brokenYPos + size,
+//                   size*i + brokenXPos + size + offsetX,
+//                   size*j + brokenYPos);
 //        triangle(20*i,20,20 +20*i,40,20*i,40);
+          //fill(255,255,255);
+          beginShape(POINTS);
+            vertex(size*i + brokenXPos - offsetX, size*j + brokenYPos, -50);
+            vertex(size*i + brokenXPos + size - offsetX, size*j + brokenYPos + size, -50);
+            vertex(size*i + brokenXPos - offsetX, size*j + brokenYPos + size, -50);
+            vertex(30, 75, -50);
+            endShape();
       }
     }
 }
