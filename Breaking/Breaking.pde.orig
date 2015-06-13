@@ -33,18 +33,14 @@ void draw() {
    int demoState=moonlander.getIntValue("demoState");
     
     background(demoState*50);
-   if(demoState==3){
-     doTheSplitCubesThing();
-   }
    
    moonlander.update();
-} 
+}  
 void drawSomethingElse(){
   int bg_blue = moonlander.getIntValue("background_blue");
     
 }
-void doTheSplitCubesThing(){
-    beginCamera();
+   beginCamera();
    camera();
    translate(width/2, height/2, 0);
    //translate(width/2+60*sin(millis()/1000f), height/2, 60*sin(millis()/1000f));
@@ -66,8 +62,8 @@ void doTheSplitCubesThing(){
    popMatrix();
    
    perspective();
+} 
 
-}
 float secondPower() {
     if (millis() > 5000) {
        return 3.0f;
