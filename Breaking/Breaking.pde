@@ -34,7 +34,7 @@ void draw() {
    double steps=moonlander.getValue("steps");
    background(demoState*50);
    if(demoState==0){
- //    doIntroIntro(steps);
+     doIntroIntro(steps);
     }else if(demoState>0&&demoState<3){
      doIntro(demoState);
      getReadyText(steps);
@@ -43,11 +43,13 @@ void draw() {
      drawExtraCubes();
    } else if (demoState==4){
      doOutro();
-   }  
+   } else if (demoState==5){
+     exit();
+   } 
    
-    textSize(32);
+//    textSize(32);
     fill(255, 102, 0);
-    text("State: "+demoState+" "+crapToShowInDebug, width-200, 35,0 );
+//    text("State: "+demoState+" "+crapToShowInDebug, width-200, 35,0 );
    moonlander.update();
 } 
 float clamper(float value, float min, float max){
@@ -119,15 +121,38 @@ void getReadyText(double steps){
 }
 void doIntroIntro(double steps){
   
-  if(steps>20){
+//  if(steps>20){
+    double deltaSteps=steps-20;
+    int i=0;
+//    stroke(255,255,0);
+//    fill(255,255,0);
+//    for(i=0; i<(deltaSteps/4);i++){
+//      print("joo");
+//      bezier(0, height*0.2+height*sin((float) (i+1)* (float)deltaSteps) , 0, //p1
+//      width/2, height/2, 0, //ctrl 1
+//      width,height*0.2+height*tan( (i+1)* (float)deltaSteps) , 0,  //p2
+//      width/2, height/2, 0); //ctrl2
+//    } 
+//    noStroke();
+      fill(255,255,0);
+      float rayWidth=40;
+      float move=sin(millis()/1000f)*20;
+      for(i=0;i <clamper( (float)deltaSteps/2 ,0,(float)width/rayWidth);i++){         
+       if(i%4!=1)continue; 
+        triangle(width/2, height/2, i*rayWidth+move, 0+move, (i+1)*rayWidth+move, 0+move);
+        triangle(width/2, height/2, i*rayWidth+move, height+move, (i+1)*rayWidth+move, height+move);
+      }
+      for(i=0;i <clamper( (float)deltaSteps/2f ,0,height/rayWidth);i++){    
+         if(i%4!=1)continue;      
+        triangle(width/2, height/2, 0+move,i*rayWidth+move, 0+move,(i+1)*rayWidth+move);
+        triangle(width/2, height/2, width+move,i*rayWidth+move, width+move,(i+1)*rayWidth+move);
+      }
+     beginCamera();
+     camera();
+     translate(0,0, 55);
+     endCamera();
       
-//      bezier(x1, y1, z1,
-//      x2, y2, z2,
-//      x3, y3, z3, 
-//      x4, y4, z4)
-     
-     
-  }
+//  }
 }
 void drawExtraCubes(){
   int i;
@@ -272,12 +297,12 @@ void doOutro() {
   }
   
   String s1;
-  print(moveIdx);
-  print("\n");
+  //print(moveIdx);
+  //print("\n");
   if (moveIdx < 6) {s1="TEAM MEGAFORCE";} 
-  else if (moveIdx < 7) {s1="  AM MEGAFORCE";}
-  else if (moveIdx < 8) {s1="     MEGAFORCE";}
-  else if (moveIdx < 9) {s1="         FORCE";}
+  else if (moveIdx < 7) {s1="    AM MEGAFORCE";}
+  else if (moveIdx < 8) {s1="        MEGAFORCE";}
+  else if (moveIdx < 9) {s1="              FORCE";}
   else {s1="";}
   
   textSize(height/5);
@@ -422,7 +447,7 @@ void drawCube(float size, PShape s, boolean move) {
 }
 
 PShape setupPyramid(float size) {
-    PImage img = loadImage("boxtexture.jpg");
+    //PImage img = loadImage("boxtexture.jpg");
     noStroke();
     float[] v1={1*size,0,1*size};
     float[] v2={-1*size,0,1*size};
@@ -462,7 +487,7 @@ PShape setupPyramid(float size) {
             }
             greenQuads++;
             s.beginShape(TRIANGLES);
-            s.texture(img);
+            //s.texture(img);
             //s.fill((i==4)?220:0, 255, 0);
             s.vertex( verts[i][0],verts[i][1],verts[i][2], 512, 0);
             //s.fill((i2==4)?220:0, 255, 0);
