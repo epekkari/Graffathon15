@@ -1,46 +1,46 @@
 <sync rows="1000">
 	<tracks>
 		<track name="demoState">
-			<key value="0" interpolation="0" row="0"/>
-			<key value="1" interpolation="0" row="64"/>
-			<key value="2" interpolation="0" row="132"/>
-			<key value="3" interpolation="0" row="260"/>
-			<key value="4" interpolation="0" row="646"/>
+			<key interpolation="0" value="0" row="0"/>
+			<key interpolation="0" value="1" row="64"/>
+			<key interpolation="0" value="2" row="132"/>
+			<key interpolation="0" value="3" row="260"/>
+			<key interpolation="0" value="4" row="646"/>
 		</track>
 		<track name="background_red"/>
 		<track name="introState">
-			<key value="-1" interpolation="0" row="0"/>
-			<key value="1" interpolation="1" row="64"/>
-			<key value="52" interpolation="1" row="132"/>
-			<key value="80" interpolation="0" row="260"/>
+			<key interpolation="0" value="-1" row="0"/>
+			<key interpolation="1" value="1" row="64"/>
+			<key interpolation="1" value="52" row="132"/>
+			<key interpolation="0" value="80" row="260"/>
 		</track>
 		<track name="cubeSeparation">
-			<key value="0" interpolation="1" row="288"/>
-			<key value="3" interpolation="0" row="312"/>
-			<key value="3" interpolation="1" row="544"/>
-			<key value="0" interpolation="0" row="560"/>
+			<key interpolation="1" value="0" row="288"/>
+			<key interpolation="0" value="3" row="312"/>
+			<key interpolation="1" value="3" row="544"/>
+			<key interpolation="0" value="0" row="560"/>
 		</track>
 		<track name="cubePhase">
-			<key value="0" interpolation="0" row="274"/>
-			<key value="1" interpolation="0" row="325"/>
-			<key value="2" interpolation="0" row="388"/>
-			<key value="3" interpolation="0" row="520"/>
-			<key value="4" interpolation="0" row="536"/>
-			<key value="5" interpolation="0" row="646"/>
+			<key interpolation="0" value="0" row="274"/>
+			<key interpolation="0" value="1" row="325"/>
+			<key interpolation="0" value="2" row="388"/>
+			<key interpolation="0" value="3" row="520"/>
+			<key interpolation="0" value="4" row="536"/>
+			<key interpolation="0" value="5" row="646"/>
 		</track>
 		<track name="dampBeat">
-			<key value="0" interpolation="2" row="316"/>
-			<key value="1" interpolation="0" row="325"/>
-			<key value="1" interpolation="2" row="528"/>
-			<key value="0" interpolation="0" row="536"/>
+			<key interpolation="2" value="0" row="316"/>
+			<key interpolation="0" value="1" row="325"/>
+			<key interpolation="2" value="1" row="528"/>
+			<key interpolation="0" value="0" row="536"/>
 		</track>
 		<track name="moveIdx">
-			<key value="1" interpolation="3" row="680"/>
-			<key value="100" interpolation="0" row="999"/>
+			<key interpolation="3" value="1" row="680"/>
+			<key interpolation="0" value="100" row="999"/>
 		</track>
 		<track name="steps">
-			<key value="0" interpolation="1" row="0"/>
-			<key value="999" interpolation="0" row="999"/>
+			<key interpolation="1" value="0" row="0"/>
+			<key interpolation="0" value="999" row="999"/>
 		</track>
 	</tracks>
 	<bookmarks/>

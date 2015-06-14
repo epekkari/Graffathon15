@@ -34,9 +34,10 @@ void draw() {
    double steps=moonlander.getValue("steps");
    background(demoState*50);
    if(demoState==0){
-     doIntroIntro(steps);
+ //    doIntroIntro(steps);
     }else if(demoState>0&&demoState<3){
      doIntro(demoState);
+     getReadyText(steps);
    } else if (demoState==3){
      doTheSplitCubesThing();
      drawExtraCubes();
@@ -49,22 +50,82 @@ void draw() {
     text("State: "+demoState+" "+crapToShowInDebug, width-200, 35,0 );
    moonlander.update();
 } 
+float clamper(float value, float min, float max){
+  if(value<min)return min;
+  else if(value>max)return max;
+  else return value;
+}
+
+void getReadyText(double steps){
+  if(steps<140)return;
+  
+  int[] getRow1= { 1,1,1,1,0,1,1,1,1,0,1,1,1,1,1,0,0,0,0,0};
+  int[] getRow2= { 1,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0};
+  int[] getRow3= { 1,0,1,1,0,1,1,1,0,0,0,0,1,0,0,0,0,0,0,0};
+  int[] getRow4= { 1,0,0,1,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0};
+  int[] getRow5= { 1,1,1,1,0,1,1,1,1,0,0,0,1,0,0,0,0,0,0,0};
+  int[][]getRows={getRow5,getRow4,getRow3,getRow2,getRow1};
+  int[] rdyRow1= { 1,1,1,1,0,1,1,1,0,0,1,0,0,0,1,0,1,1,0,0};
+  int[] rdyRow2= { 1,0,0,1,0,1,0,0,1,0,0,1,0,1,0,0,1,1,0,0};
+  int[] rdyRow3= { 1,1,1,0,0,1,0,0,1,0,0,0,1,0,0,0,1,1,0,0};
+  int[] rdyRow4= { 1,0,0,1,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0};
+  int[] rdyRow5= { 1,0,0,1,0,1,1,1,0,0,0,0,1,0,0,0,1,1,0,0};
+ 
+  int[][]rdyRows={rdyRow5,rdyRow4,rdyRow3,rdyRow2,rdyRow1};
+  float i=0;
+  float i2=0;
+  pushMatrix();
+  boolean firstTime=false;
+  if(steps>150)firstTime=true; //menee väärinpäin, first time tarkottaa ei first time XD
+  float scalingValue=1f;
+  translate(0,0,100);
+  if(millis()/100 % 2 ==1 ) {
+    fill(0,0,0);  
+  } else {
+     fill(255,0,0); 
+  }
+  
+  int addedFrames=0;
+  if(firstTime){
+    addedFrames=10; 
+     translate(0,height*2,0);
+   }
+  stroke(255,255,0);
+  for(i2=0;i2<clamper((float)(steps-(140+addedFrames)) ,0,(float)getRows.length) ;i2++){
+    pushMatrix();
+    for(i=0;i< getRow1.length;i++){
+      boolean doABox=false;
+      if(!firstTime){
+        if(getRows[(int)i2][(int)i]>0){
+          doABox=true;
+        }
+      } else {
+       if(rdyRows[(int)i2][(int)i]>0){
+          doABox=true;
+        }
+      }
+      if(doABox){
+        box(100*scalingValue,50*scalingValue,50*scalingValue);
+      }
+      crapToShowInDebug="i2 "+i2;
+      translate(100*scalingValue,0,0);
+    }
+   // noStroke();
+    popMatrix();
+    translate(0,-100*scalingValue,0);
+    //print("i2: "+i2);
+  }
+  popMatrix();
+}
 void doIntroIntro(double steps){
-  crapToShowInDebug=""+steps;
-  String s1="TEAM MEGAFORCE";
-  String s2="PROUDLY PRESENTS";
-  int i;
+  
   if(steps>20){
       
-      
-      textSize(height/10);
-      fill(255, 255, 0);
-      text(""+ s1, width-450,(float)height-5-(height/10),0 );
-      if(steps>40){
-      textSize(height/10);
-      fill(255, 255, 0);
-      text(""+ s2,width-450 ,(float)height-5 ,0);
-      }
+//      bezier(x1, y1, z1,
+//      x2, y2, z2,
+//      x3, y3, z3, 
+//      x4, y4, z4)
+     
      
   }
 }
