@@ -185,7 +185,7 @@ void doIntro(int demoState){
 }
 
 void doOutro() {
-  background(205,0,0);
+  background(220,220,0);
   beginCamera();
   camera();
   rotateY(0.15*sin(millis()/1000f));
@@ -209,6 +209,19 @@ void doOutro() {
      popMatrix();
     }
   }
+  
+  String s1;
+  print(moveIdx);
+  print("\n");
+  if (moveIdx < 6) {s1="TEAM MEGAFORCE";} 
+  else if (moveIdx < 7) {s1="  AM MEGAFORCE";}
+  else if (moveIdx < 8) {s1="     MEGAFORCE";}
+  else if (moveIdx < 9) {s1="         FORCE";}
+  else {s1="";}
+  
+  textSize(height/5);
+  fill(0, 0, 0);
+  text(s1, width ,height*2-size ,-2*size);
 }
 
 void doTheSplitCubesThing(){
@@ -348,6 +361,7 @@ void drawCube(float size, PShape s, boolean move) {
 }
 
 PShape setupPyramid(float size) {
+    PImage img = loadImage("boxtexture.jpg");
     noStroke();
     float[] v1={1*size,0,1*size};
     float[] v2={-1*size,0,1*size};
@@ -355,13 +369,17 @@ PShape setupPyramid(float size) {
     float[] v4={1*size,0,-1*size};
     float[] v5={0,1*size,0};
     float[][] verts={v1,v2,v3,v4,v5};
-    fill(255);
+    //fill(255);
     PShape s = createShape();
-    s.beginShape(TRIANGLES);
+    lights();
+    pointLight(251, 102, 126, 0, 0, 0);
+    pointLight(251, 102, 126, height, width, height);
+    //s.beginShape(TRIANGLES);
     int i;
     int i2;
     int i3;
     boolean green=true;
+    int greenQuads=0;
     for(i=0; i<5 ;i++){
       for(i2=0; i2<5 ;i2++){
         if(i2==i){
@@ -377,17 +395,54 @@ PShape setupPyramid(float size) {
           } else if(i!=4&&i2!=4&&i3!=4){
             green=true;  
           }
-          s.fill((i==4)?220:(green)?0:255, (green)?255:30, 0);
-          s.vertex( verts[i][0],verts[i][1],verts[i][2]);
-          s.fill((i2==4)?220:(green)?0:255, (green)?255:30, 0);
-          s.vertex( verts[i2][0],verts[i2][1],verts[i2][2]);
-          s.fill((i3==4)?220:(green)?0:255, (green)?255:30, 0);
-          s.vertex( verts[i3][0],verts[i3][1],verts[i3][2]);
+          if (green) {
+            if(greenQuads<1){
+               continue; 
+            }
+            greenQuads++;
+            s.beginShape(TRIANGLES);
+            s.texture(img);
+            //s.fill((i==4)?220:0, 255, 0);
+            s.vertex( verts[i][0],verts[i][1],verts[i][2], 512, 0);
+            //s.fill((i2==4)?220:0, 255, 0);
+            s.vertex( verts[i2][0],verts[i2][1],verts[i2][2], 0, 512);
+            //s.fill((i3==4)?220:0, 255, 0);
+            s.vertex( verts[i3][0],verts[i3][1],verts[i3][2], 0, 0);
+            s.endShape();
+          } else {
+            s.beginShape(TRIANGLES);
+            int edgeColor=0;
+            int centerColor=0;
+            if(i==4)centerColor=255; 
+            else edgeColor=220;
+            s.fill(centerColor+edgeColor, edgeColor, 0);
+            s.vertex( verts[i][0],verts[i][1],verts[i][2]);
+            if(i2==4)centerColor=255; 
+            else edgeColor=220;
+            s.fill(centerColor+edgeColor, edgeColor, 0);
+            s.vertex( verts[i2][0],verts[i2][1],verts[i2][2]);
+            if(i3==4)centerColor=255; 
+            else edgeColor=220;
+            s.fill(centerColor+edgeColor, edgeColor, 0);
+            s.vertex( verts[i3][0],verts[i3][1],verts[i3][2]);
+            s.endShape();
+          }
+         
         }
       }
     }
     
+    s.beginShape(QUADS);
+    //s.texture(img);
+    //s.stroke(153);
+    fill(255,0,0);
+    s.vertex(verts[0][0],verts[0][1],verts[0][2], 512, 0);
+    s.vertex(verts[2][0],verts[2][1],verts[2][2], 0, 512);
+    s.vertex(verts[3][0],verts[3][1],verts[3][2], 512, 512);
+    s.vertex(verts[1][0],verts[1][1],verts[1][2], 0, 0);
     s.endShape();
+    
+    //s.endShape();
     return s;
 }
 
