@@ -16,7 +16,7 @@ void setup() {
  
     // Other initialization code goes here.
     size(800, 450, P3D);
-
+  
     // Last thing in setup; start Moonlander. This either
     // connects to Rocket (development mode) or loads data
     // from 'syncdata.rocket' (player mode).
@@ -31,9 +31,11 @@ boolean sketchFullScreen() {
 void draw() {
    clear();
    int demoState=moonlander.getIntValue("demoState");
-    
+   double steps=moonlander.getValue("steps");
    background(demoState*50);
-   if(demoState>-1&&demoState<3){
+   if(demoState==0){
+     doIntroIntro(steps);
+    }else if(demoState>0&&demoState<3){
      doIntro(demoState);
    } else if (demoState==3){
      doTheSplitCubesThing();
@@ -47,12 +49,31 @@ void draw() {
     text("State: "+demoState+" "+crapToShowInDebug, width-200, 35,0 );
    moonlander.update();
 } 
+void doIntroIntro(double steps){
+  crapToShowInDebug=""+steps;
+  String s1="TEAM MEGAFORCE";
+  String s2="PROUDLY PRESENTS";
+  int i;
+  if(steps>20){
+      
+      
+      textSize(height/10);
+      fill(255, 255, 0);
+      text(""+ s1, width-450,(float)height-5-(height/10),0 );
+      if(steps>40){
+      textSize(height/10);
+      fill(255, 255, 0);
+      text(""+ s2,width-450 ,(float)height-5 ,0);
+      }
+     
+  }
+}
 void drawExtraCubes(){
   int i;
   int i2;
   float scalingValue=1000f;
   pushMatrix();
-  
+   fill( 255*sin(millis()/1000f), 255*cos(millis()/1000f),255*tan(millis()/1000f) )  ;
 //  translate(width,height,0);
   translate(-scalingValue, 0, -scalingValue*2); 
   for(i=0;i<3;i++){  
@@ -60,13 +81,13 @@ void drawExtraCubes(){
     for(i2=0;i2<3;i2++){
       translate(0,0,scalingValue);
         
-      if(i==0){
-        fill(255*sin((millis()+i*10)/1000f), 255*cos((millis()+i2*10)/1000f),255*tan(millis()/1000f) );
-      } else if(i==1) {
-        fill( 255*cos((millis()+i2*10)/1000f),255*sin((millis()+i*10)/1000f),255*tan(millis()/1000f) );  
-      } else{
-        fill(255*tan(millis()/1000f)  ,255*cos((millis()+i2*10)/1000f),255*sin((millis()+i*10)/1000f));  
-      }
+//      if(i==0){
+//       
+//      } else if(i==1) {
+//        fill( 255*cos((millis()+i2*10)/1000f),255*sin((millis()+i*10)/1000f),255*tan(millis()/1000f) );  
+//      } else{
+//        fill(255*tan(millis()/1000f)  ,255*cos((millis()+i2*10)/1000f),255*sin((millis()+i*10)/1000f));  
+//      }
       if(i2==1&&i==1){
         translate(0,scalingValue,0);
         box(scalingValue);
@@ -81,6 +102,10 @@ void drawExtraCubes(){
     translate(scalingValue,0,0);
   }
   popMatrix();
+  pushMatrix();
+  translate(0, 0, scalingValue);
+  box(scalingValue);
+  popMatrix();  
 }
 String crapToShowInDebug="";
 double lastValue;
@@ -369,7 +394,7 @@ PShape setupPyramid(float size) {
 void drawPyramid(PShape s) {
     shape(s, 0, 0);
     
-//    textSize(32);
+//    Size(32);
 //    fill(255, 102, 0);
 //    text("V1",v1[0], v1[1],v1[2]); 
 //    text("V2",v2[0], v2[1],v2[2]); 
